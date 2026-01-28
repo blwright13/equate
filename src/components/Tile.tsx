@@ -22,7 +22,7 @@ export function Tile({ tile, disabled }: TileProps) {
         flex h-10 w-10 items-center justify-center rounded border border-slate-300
         bg-amber-50 font-mono text-lg font-semibold shadow
         ${disabled ? 'cursor-not-allowed opacity-50' : 'cursor-grab active:cursor-grabbing'}
-        ${isDragging ? 'opacity-50' : ''}
+        ${isDragging ? 'invisible' : ''}
       `}
     >
       {tile.face}

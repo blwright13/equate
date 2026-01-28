@@ -54,13 +54,24 @@ export const EquateGame: Game<EquateG> = {
   setup: setupFixed,
 
   moves: {
-    placeTiles(
-      _g: EquateG,
-      _ctx: unknown,
-      placements: { row: number; col: number; tileId: string }[]
+    placeTile(
+      { G, ctx }: { G: EquateG; ctx: { currentPlayer: string } },
+      { row, col, tileId }: { row: number; col: number; tileId: string }
     ) {
-      // TODO: validate connectivity, single run, equation; update board & hand; score.
-      void placements
+      const pid = ctx.currentPlayer
+      const hand = G.hands[pid]
+      if (!hand) return
+      const tileIdx = hand.findIndex((t) => t.id === tileId)
+      if (tileIdx === -1) return
+      const cell = G.board[row]?.[col]
+      if (!cell || cell.tileId != null) return
+      const tile = hand[tileIdx]
+      G.board[row][col] = {
+        tileId: tile.id,
+        face: tile.face,
+        premium: cell.premium,
+      }
+      hand.splice(tileIdx, 1)
     },
   },
 }
